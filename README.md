@@ -1,4 +1,3 @@
-````markdown
 # SAS: Sentinel Aerospace System for Aircraft Surface Damage Detection and 3D Localization Using Deep Learning
 
 SAS, short for **Sentinel Aerospace System**, is a computer vision and artificial intelligence-based web application designed for aircraft surface damage detection, severity estimation, aircraft type classification, and interactive 3D localization.
@@ -474,5 +473,4 @@ You can add your preferred license, such as MIT License, if you want to make the
 
 Computer Vision, Deep Learning, YOLOv8, Aircraft Damage Detection, Object Detection, Aircraft Inspection, 3D Localization, Flask, Three.js, Artificial Intelligence, Web Application
 
-```
-```
+
