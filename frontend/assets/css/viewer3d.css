@@ -1,0 +1,879 @@
+/* ============================================================
+   Aircraft Damage Detection 3D
+   File: frontend/assets/css/viewer3d.css
+   Page: viewer3d.html
+============================================================ */
+
+/* ============================================================
+   Viewer Page Base
+============================================================ */
+
+.viewer-page-body {
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(88, 224, 255, 0.08), transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(255, 77, 90, 0.06), transparent 35%),
+    var(--bg-0);
+}
+
+
+/* ============================================================
+   Main Layout
+============================================================ */
+
+.viewer-main {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.viewer-side-panel {
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  border-right: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 20, 0.78), rgba(5, 8, 13, 0.92)),
+    radial-gradient(circle at top left, rgba(88, 224, 255, 0.08), transparent 45%);
+}
+
+.viewer-stage {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(88, 224, 255, 0.08), transparent 35%),
+    linear-gradient(180deg, #05080d 0%, #030509 100%);
+  overflow: hidden;
+}
+
+/* ============================================================
+   Side Panel Cards
+============================================================ */
+
+.panel-card {
+  position: relative;
+  padding: 22px;
+  margin-bottom: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(140, 180, 230, 0.14);
+  background:
+    linear-gradient(145deg, rgba(20, 28, 42, 0.78), rgba(8, 12, 20, 0.88)),
+    radial-gradient(circle at top right, rgba(88, 224, 255, 0.08), transparent 45%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
+  overflow: hidden;
+}
+
+.panel-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(88, 224, 255, 0.38),
+    transparent
+  );
+}
+
+.panel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cyan);
+  background: rgba(88, 224, 255, 0.08);
+  border: 1px solid rgba(88, 224, 255, 0.22);
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.panel-card h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  color: var(--ink-0);
+  font-size: 1.65rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.panel-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  color: var(--ink-0);
+  font-family: var(--display);
+  font-size: 1.12rem;
+  letter-spacing: -0.01em;
+}
+
+.panel-card h3 i {
+  color: var(--cyan);
+}
+
+.panel-card p {
+  color: var(--ink-1);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ============================================================
+   Viewer Status
+============================================================ */
+
+.viewer-status {
+  margin-top: 18px;
+  padding: 12px 13px;
+  border-radius: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+  border: 1px solid rgba(140, 180, 230, 0.14);
+  font-size: 0.88rem;
+}
+
+.viewer-status.loading {
+  color: #fde68a;
+  background: rgba(113, 63, 18, 0.18);
+  border-color: rgba(250, 204, 21, 0.24);
+}
+
+.viewer-status.success {
+  color: #86efac;
+  background: rgba(22, 101, 52, 0.18);
+  border-color: rgba(134, 239, 172, 0.24);
+}
+
+.viewer-status.error {
+  color: #fca5a5;
+  background: rgba(127, 29, 29, 0.22);
+  border-color: rgba(252, 165, 165, 0.24);
+}
+
+.viewer-status.info {
+  color: #bfdbfe;
+  background: rgba(30, 64, 175, 0.18);
+  border-color: rgba(191, 219, 254, 0.24);
+}
+
+/* ============================================================
+   Damage Details
+============================================================ */
+
+.viewer-detail-list {
+  display: grid;
+  gap: 0;
+}
+
+.viewer-detail-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(140, 180, 230, 0.12);
+}
+
+.viewer-detail-row:first-child {
+  padding-top: 0;
+}
+
+.viewer-detail-row span {
+  color: var(--ink-2);
+  font-size: 0.86rem;
+}
+
+.viewer-detail-row strong {
+  color: var(--ink-0);
+  text-align: right;
+  max-width: 190px;
+  word-break: break-word;
+}
+
+.viewer-severity {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.viewer-severity.critical,
+.viewer-severity.severity-critical {
+  color: #fecaca !important;
+  background: rgba(127, 29, 29, 0.55);
+  border: 1px solid rgba(248, 113, 113, 0.38);
+}
+
+.viewer-severity.high,
+.viewer-severity.severity-high,
+.viewer-severity.major {
+  color: #fed7aa !important;
+  background: rgba(154, 52, 18, 0.45);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+}
+
+.viewer-severity.medium,
+.viewer-severity.severity-medium {
+  color: #fde68a !important;
+  background: rgba(113, 63, 18, 0.44);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+}
+
+.viewer-severity.low,
+.viewer-severity.severity-low,
+.viewer-severity.minor {
+  color: #bbf7d0 !important;
+  background: rgba(22, 101, 52, 0.42);
+  border: 1px solid rgba(74, 222, 128, 0.32);
+}
+
+.viewer-severity.unknown,
+.viewer-severity.severity-unknown {
+  color: var(--ink-1) !important;
+  background: rgba(51, 65, 85, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+/* ============================================================
+   Recommendation Box
+============================================================ */
+
+.recommendation-3d {
+  margin-top: 16px;
+  padding: 15px;
+  border-radius: 15px;
+  background: rgba(88, 224, 255, 0.06);
+  border: 1px solid rgba(88, 224, 255, 0.18);
+}
+
+.recommendation-3d span {
+  display: block;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.recommendation-3d p {
+  color: var(--ink-0);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ============================================================
+   Viewer Controls
+============================================================ */
+
+.viewer-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.model-selector-label {
+  display: block;
+  margin: 12px 0 8px;
+  color: #9ab8d8;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.model-selector {
+  width: 100%;
+  min-height: 42px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(88, 224, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(7, 16, 28, 0.9);
+  color: #eaf7ff;
+  padding: 0 12px;
+  outline: none;
+}
+
+.model-selector:focus {
+  border-color: rgba(88, 224, 255, 0.75);
+  box-shadow: 0 0 0 3px rgba(88, 224, 255, 0.12);
+}
+
+.viewer-controls button {
+  width: 100%;
+  border: 1px solid rgba(140, 180, 230, 0.18);
+  background:
+    linear-gradient(180deg, rgba(20, 28, 42, 0.8), rgba(8, 12, 20, 0.78));
+  color: var(--ink-0);
+  border-radius: 13px;
+  padding: 12px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.viewer-controls button i {
+  color: var(--cyan);
+  width: 18px;
+}
+
+.viewer-controls button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(88, 224, 255, 0.42);
+  background:
+    linear-gradient(180deg, rgba(88, 224, 255, 0.13), rgba(8, 12, 20, 0.78));
+}
+
+.viewer-controls button.active {
+  color: var(--cyan);
+  border-color: rgba(88, 224, 255, 0.5);
+  box-shadow: 0 0 26px rgba(88, 224, 255, 0.09);
+}
+
+/* ============================================================
+   Viewer HUD
+============================================================ */
+
+.viewer-top-hud,
+.viewer-bottom-hud {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  z-index: 8;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.viewer-top-hud {
+  top: 18px;
+}
+
+.viewer-bottom-hud {
+  bottom: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.viewer-top-hud > div,
+.viewer-bottom-hud span {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(8, 12, 20, 0.66);
+  border: 1px solid rgba(140, 180, 230, 0.14);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+}
+
+.viewer-top-hud span {
+  display: block;
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.viewer-top-hud strong {
+  color: var(--ink-0);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
+.viewer-bottom-hud span {
+  color: var(--ink-1);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   3D Canvas
+============================================================ */
+
+.viewer-canvas-host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+#aircraftCanvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  cursor: grab;
+}
+
+#aircraftCanvas:active {
+  cursor: grabbing;
+}
+
+/* Grid overlay */
+.viewer-canvas-host::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(120, 160, 210, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 160, 210, 0.035) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at center, black 25%, transparent 85%);
+}
+
+/* Subtle scan glow */
+.viewer-canvas-host::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -20%;
+  height: 22%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(88, 224, 255, 0.08),
+    transparent
+  );
+  animation: viewerScan 5s linear infinite;
+}
+
+@keyframes viewerScan {
+  0% {
+    transform: translateY(-20vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(130vh);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Crosshair
+============================================================ */
+
+.viewer-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  width: 92px;
+  height: 92px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.42;
+}
+
+.viewer-crosshair::before,
+.viewer-crosshair::after {
+  content: "";
+  position: absolute;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(88, 224, 255, 0.5);
+}
+
+.viewer-crosshair::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.viewer-crosshair::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+/* ============================================================
+   Axis Widget
+============================================================ */
+
+.viewer-axis {
+  position: absolute;
+  right: 24px;
+  bottom: 70px;
+  z-index: 8;
+  width: 92px;
+  height: 92px;
+  border-radius: 18px;
+  background: rgba(8, 12, 20, 0.66);
+  border: 1px solid rgba(140, 180, 230, 0.14);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+.axis-line {
+  position: absolute;
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 0.72rem;
+}
+
+.axis-line.x {
+  color: var(--red);
+  right: 14px;
+  top: 42px;
+}
+
+.axis-line.y {
+  color: var(--green);
+  left: 43px;
+  top: 12px;
+}
+
+.axis-line.z {
+  color: var(--cyan);
+  left: 18px;
+  bottom: 17px;
+}
+
+.viewer-axis::before,
+.viewer-axis::after {
+  content: "";
+  position: absolute;
+  background: rgba(140, 180, 230, 0.22);
+}
+
+.viewer-axis::before {
+  left: 46px;
+  top: 18px;
+  width: 1px;
+  height: 56px;
+}
+
+.viewer-axis::after {
+  left: 18px;
+  top: 46px;
+  width: 56px;
+  height: 1px;
+}
+
+/* ============================================================
+   Damage Label Overlay
+============================================================ */
+
+.damage-label {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  top: 50%;
+  transform: translate(18px, -18px);
+  min-width: 190px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(8, 12, 20, 0.82);
+  border: 1px solid rgba(255, 77, 90, 0.38);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 34px rgba(255, 77, 90, 0.16),
+    0 18px 50px rgba(0, 0, 0, 0.34);
+  pointer-events: none;
+}
+
+.damage-label::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 18px;
+  width: 18px;
+  height: 1px;
+  background: rgba(255, 77, 90, 0.8);
+}
+
+.damage-label strong {
+  display: block;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.damage-label span {
+  display: block;
+  color: var(--ink-0);
+  font-size: 0.86rem;
+}
+
+/* ============================================================
+   Marker Pulse Helper
+   JS-created DOM marker can use this if needed
+============================================================ */
+
+.damage-dom-marker {
+  position: absolute;
+  z-index: 11;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  margin-top: -9px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.damage-dom-marker::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 18px var(--red-glow);
+}
+
+.damage-dom-marker::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--red);
+  border-radius: 50%;
+  animation: damagePing 1.4s ease-out infinite;
+}
+
+.damage-dom-marker.high::before {
+  background: var(--amber);
+  box-shadow: 0 0 18px rgba(255, 181, 71, 0.55);
+}
+
+.damage-dom-marker.high::after {
+  border-color: var(--amber);
+}
+
+.damage-dom-marker.medium::before {
+  background: #facc15;
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.55);
+}
+
+.damage-dom-marker.medium::after {
+  border-color: #facc15;
+}
+
+.damage-dom-marker.low::before {
+  background: var(--green);
+  box-shadow: 0 0 18px rgba(74, 222, 128, 0.55);
+}
+
+.damage-dom-marker.low::after {
+  border-color: var(--green);
+}
+
+@keyframes damagePing {
+  0% {
+    transform: scale(0.55);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Loading Overlay Optional
+============================================================ */
+
+.viewer-loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 8, 13, 0.68);
+  backdrop-filter: blur(8px);
+}
+
+.viewer-loader {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  color: var(--ink-0);
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.viewer-loader::before {
+  content: "";
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(88, 224, 255, 0.18);
+  border-top-color: var(--cyan);
+  animation: loaderSpin 0.9s linear infinite;
+}
+
+@keyframes loaderSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   Responsive
+============================================================ */
+
+@media (max-width: 1080px) {
+  .viewer-main {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .panel-card {
+    padding: 18px;
+  }
+
+  .viewer-top-hud {
+    flex-direction: column;
+    align-items: flex-start;
+    right: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .viewer-page-body {
+    overflow-y: auto;
+  }
+
+  .viewer-main {
+    height: auto;
+    min-height: calc(100vh - 76px);
+    grid-template-columns: 1fr;
+  }
+
+  .viewer-side-panel {
+    height: auto;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .viewer-stage {
+    height: 72vh;
+    min-height: 520px;
+  }
+
+  .viewer-top-hud {
+    left: 14px;
+    top: 14px;
+  }
+
+  .viewer-bottom-hud {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .viewer-axis {
+    right: 16px;
+    bottom: 84px;
+  }
+}
+
+@media (max-width: 560px) {
+  .viewer-side-panel {
+    padding: 14px;
+  }
+
+  .viewer-stage {
+    min-height: 480px;
+  }
+
+  .viewer-detail-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .viewer-detail-row strong {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .viewer-top-hud > div {
+    width: fit-content;
+    max-width: calc(100vw - 32px);
+  }
+
+  .viewer-bottom-hud {
+    display: none;
+  }
+
+  .damage-label {
+    min-width: 160px;
+    max-width: 210px;
+  }
+}
+
+.zone-control-panel {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(120, 170, 220, 0.16);
+}
+
+.zone-control-panel > strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #ffb15c;
+  font-size: 0.92rem;
+}
+
+.zone-button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.zone-button-grid button {
+  min-height: 36px;
+  border: 1px solid rgba(88, 224, 255, 0.22);
+  border-radius: 8px;
+  background: rgba(7, 16, 28, 0.72);
+  color: #d8f6ff;
+  cursor: pointer;
+}
+
+.zone-button-grid button.active,
+.zone-button-grid button:hover {
+  border-color: rgba(255, 122, 47, 0.75);
+  background: rgba(255, 122, 47, 0.14);
+  color: #fff;
+}

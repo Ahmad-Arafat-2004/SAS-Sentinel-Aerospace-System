@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Viewer | SAS — Sentinel Aerospace System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/viewer3d.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-bg"></div>
+  <div class="app">
+
+    <header class="topbar" id="site-topbar"></header>
+
+    <main class="with-sidebar" style="overflow:hidden">
+      <aside class="sidebar" id="site-sidebar"></aside>
+      <script src="assets/js/shell.js"></script>
+
+      <div style="overflow:hidden;height:100%">
+        <main class="viewer-main">
+
+          <!-- Left Information Panel -->
+          <aside class="viewer-side-panel">
+            <div class="panel-card">
+              <span class="panel-badge">
+                <i class="fa-solid fa-cube"></i>
+                3D Localization
+              </span>
+              <h2>Aircraft Digital Twin</h2>
+              <p>
+                The detected damage is mapped from the 2D image result to an approximate
+                aircraft zone on the 3D model.
+              </p>
+              <div id="viewerStatus" class="viewer-status loading">
+                Loading 3D viewer...
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <h3>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Active Damage
+              </h3>
+              <div class="viewer-detail-list">
+                <div class="viewer-detail-row">
+                  <span>Damage Type</span>
+                  <strong id="damageType3d">---</strong>
+                </div>
+                <div class="viewer-detail-row">
+                  <span>Severity</span>
+                  <strong id="severity3d" class="viewer-severity">---</strong>
+                </div>
+                <div class="viewer-detail-row">
+                  <span>Confidence</span>
+                  <strong id="confidence3d">---</strong>
+                </div>
+                <div class="viewer-detail-row">
+                  <span>Zone</span>
+                  <strong id="zone3d">---</strong>
+                </div>
+                <div class="viewer-detail-row">
+                  <span>Position</span>
+                  <strong id="position3d">---</strong>
+                </div>
+              </div>
+              <div class="recommendation-3d">
+                <span>Recommendation</span>
+                <p id="recommendation3d">---</p>
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <h3>
+                <i class="fa-solid fa-sliders"></i>
+                Viewer Controls
+              </h3>
+              <label class="model-selector-label" for="modelSelector">Aircraft Model</label>
+              <select id="modelSelector" class="model-selector">
+                <option value="default">Boeing 737 (Default)</option>
+                <option value="boeing_737">Boeing 737</option>
+                <option value="boeing_747">Boeing 747</option>
+                <option value="boeing_787">Boeing 787</option>
+              </select>
+              <div class="viewer-controls">
+                <button id="resetViewBtn" type="button">
+                  <i class="fa-solid fa-rotate-left"></i> Reset Camera
+                </button>
+                <button id="toggleWireBtn" type="button">
+                  <i class="fa-solid fa-border-all"></i> Wireframe
+                </button>
+                <button id="focusDamageBtn" type="button">
+                  <i class="fa-solid fa-location-crosshairs"></i> Focus Damage
+                </button>
+                <button id="backResultBtn" type="button">
+                  <i class="fa-solid fa-arrow-left"></i> Back to Result
+                </button>
+              </div>
+              <div class="zone-control-panel">
+                <strong id="detectedZoneLabel">Detected Zone: ---</strong>
+                <div class="zone-button-grid">
+                  <button type="button" data-zone="Nose">Nose</button>
+                  <button type="button" data-zone="Fuselage">Fuselage</button>
+                  <button type="button" data-zone="Left Wing">Left Wing</button>
+                  <button type="button" data-zone="Right Wing">Right Wing</button>
+                  <button type="button" data-zone="Tail">Tail</button>
+                  <button type="button" data-zone="Engine">Engine</button>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- 3D Viewer Stage -->
+          <section class="viewer-stage">
+            <div class="viewer-top-hud">
+              <div>
+                <span>// AIRCRAFT MODEL</span>
+                <strong>assets/models/aircraft.glb</strong>
+              </div>
+              <div>
+                <span>// LOCALIZATION MODE</span>
+                <strong>Zone-Based Mapping V1</strong>
+              </div>
+              <div>
+                <span>// STATUS</span>
+                <strong id="modelStatusText">Initializing</strong>
+              </div>
+            </div>
+
+            <div id="viewerCanvasHost" class="viewer-canvas-host">
+              <canvas id="aircraftCanvas"></canvas>
+              <div class="viewer-crosshair"></div>
+              <div class="viewer-axis">
+                <div class="axis-line x">X</div>
+                <div class="axis-line y">Y</div>
+                <div class="axis-line z">Z</div>
+              </div>
+              <div id="damageLabel" class="damage-label" style="display:none">
+                <strong id="damageLabelTitle">Damage</strong>
+                <span id="damageLabelZone">Zone</span>
+              </div>
+            </div>
+
+            <div class="viewer-bottom-hud">
+              <span>Mouse drag: rotate</span>
+              <span>Mouse wheel: zoom</span>
+              <span>Marker: detected damage location</span>
+            </div>
+          </section>
+
+        </main>
+      </div>
+    </main>
+
+    <footer class="statusbar" id="site-statusbar"></footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/viewer3d.js"></script>
+</body>
+</html>

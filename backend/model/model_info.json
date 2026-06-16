@@ -1,0 +1,21 @@
+{
+  "training_date": "2026-06-04T01:13:06",
+  "smoke_test": false,
+  "dataset_path": "D:\\aircraft_damage_detection_3d\\data\\aircraft_damage_5class_yolov8_clean\\aircraft_damage_5class_yolov8_clean\\data.yaml",
+  "class_names": {
+    "0": "crack",
+    "1": "dent",
+    "2": "scratch",
+    "3": "paint_damage",
+    "4": "other_damage"
+  },
+  "model_type": "yolov8s.pt",
+  "image_size": 640,
+  "epochs": 50,
+  "batch": 16,
+  "device": "0",
+  "workers": 2,
+  "run_path": "D:\\aircraft_damage_detection_3d\\runs\\aircraft_damage\\rtx4060_yolov8s_5class_50epochs4",
+  "backend_model_path": "D:\\aircraft_damage_detection_3d\\backend\\model\\best.pt",
+  "note": "Final training run."
+}

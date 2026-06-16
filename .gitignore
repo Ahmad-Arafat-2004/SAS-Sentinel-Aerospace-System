@@ -1,0 +1,32 @@
+# Python environment
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Do not upload datasets
+dataset/
+datasets/
+data/
+dataset_preview/
+
+# Training outputs
+runs/
+
+# Large model files
+*.pt
+*.onnx
+*.engine
+
+# Upload/result folders
+uploads/
+results/
+history/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

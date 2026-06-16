@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aircraft Select | SAS — Sentinel Aerospace System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/upload.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-bg"></div>
+  <div class="app">
+
+    <header class="topbar" id="site-topbar"></header>
+
+    <main class="with-sidebar" style="overflow:hidden">
+      <aside class="sidebar" id="site-sidebar"></aside>
+      <script src="assets/js/shell.js"></script>
+
+      <div style="overflow-y:auto;height:100%">
+        <div class="upload-page">
+
+          <section class="upload-hero">
+            <div class="hero-text">
+              <span class="section-badge">
+                <i class="fa-solid fa-plane-circle-check"></i>
+                Aircraft Identification
+              </span>
+              <h2>Aircraft Type Classification</h2>
+              <p>
+                Upload a full aircraft image. The system will identify whether it is
+                Boeing 737, Boeing 747, or Boeing 787.
+              </p>
+              <div class="backend-pill">
+                <span class="status-dot"></span>
+                <span>Aircraft Type API · Port 5050</span>
+              </div>
+            </div>
+            <div class="hero-card">
+              <div class="hero-card-icon">
+                <i class="fa-solid fa-plane"></i>
+              </div>
+              <h3>Supported Aircraft</h3>
+              <ul>
+                <li>Boeing 737</li>
+                <li>Boeing 747</li>
+                <li>Boeing 787</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="upload-layout">
+            <div class="upload-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Upload Aircraft Image</h3>
+                <p>Select a full aircraft image for classification.</p>
+              </div>
+
+              <div class="ac-upload-box">
+                <label for="aircraftImage" class="file-drop-area">
+                  <input type="file" id="aircraftImage" accept="image/png, image/jpeg, image/jpg, image/webp" />
+                  <div class="file-drop-content">
+                    <i class="fa-solid fa-image"></i>
+                    <strong>Choose Aircraft Image</strong>
+                    <span>Supported: JPG, JPEG, PNG, WEBP</span>
+                    <small id="fileName">No image selected</small>
+                  </div>
+                </label>
+
+                <div id="preview" class="ac-preview" style="display:none">
+                  <img id="previewImage" alt="Aircraft preview" />
+                </div>
+              </div>
+
+              <div class="ac-actions" style="display:flex;gap:12px;margin-top:16px">
+                <button id="classifyBtn" type="button" class="primary-btn" disabled>
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Classify Aircraft
+                </button>
+                <button id="resetBtn" type="button" class="secondary-btn">
+                  <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+              </div>
+
+              <div id="loading" class="ac-loading" style="display:none">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> &nbsp;Classifying aircraft type...
+              </div>
+
+              <div id="errorBox" class="ac-error" style="display:none"></div>
+            </div>
+
+            <div class="preview-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-star"></i> Classification Result</h3>
+                <p>The detected aircraft type and confidence scores.</p>
+              </div>
+
+              <div id="resultBox" class="ac-result" style="display:none">
+                <div class="ac-result-label">Detected Aircraft Type</div>
+                <div id="aircraftType" class="ac-aircraft-type">---</div>
+                <div id="confidence" class="ac-confidence">Confidence: --%</div>
+                <div class="ac-result-label" style="margin-top:16px">Top Predictions</div>
+                <div id="topPredictions"></div>
+                <div style="text-align:center;margin-top:20px">
+                  <button id="proceedBtn" type="button" class="ac-proceed-btn">
+                    Proceed to Damage Detection <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="emptyResult" class="empty-preview" style="display:flex">
+                <i class="fa-regular fa-circle-question"></i>
+                <p>Classification result will appear here</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="info-section">
+            <div class="info-card">
+              <i class="fa-solid fa-circle-info"></i>
+              <div>
+                <h4>How it works</h4>
+                <p>
+                  A ResNet/EfficientNet-based classifier identifies the aircraft type from
+                  the full-body image before the damage detection step.
+                </p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+              <div>
+                <h4>Workflow</h4>
+                <p>
+                  After classification, click "Proceed to Damage Detection" to continue
+                  to the upload page with the aircraft type pre-selected.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <p class="ac-note" style="text-align:center;padding:0 24px 32px;color:var(--ink-2);font-size:13px">
+            After identifying the aircraft type, proceed to upload a surface image for damage detection.
+          </p>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="statusbar" id="site-statusbar"></footer>
+  </div>
+
+  <script>
+  const API_BASE_URL = "http://127.0.0.1:5050";
+  const STORAGE_KEY = "lastAircraftTypeResult";
+
+  const fileInput = document.getElementById("aircraftImage");
+  const fileNameEl = document.getElementById("fileName");
+  const preview = document.getElementById("preview");
+  const previewImage = document.getElementById("previewImage");
+  const classifyBtn = document.getElementById("classifyBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const loading = document.getElementById("loading");
+  const errorBox = document.getElementById("errorBox");
+  const resultBox = document.getElementById("resultBox");
+  const emptyResult = document.getElementById("emptyResult");
+  const aircraftType = document.getElementById("aircraftType");
+  const confidence = document.getElementById("confidence");
+  const topPredictions = document.getElementById("topPredictions");
+  let selectedFile = null;
+  let isClassifying = false;
+
+  document.addEventListener("DOMContentLoaded", restoreLastResult);
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    selectedFile = file || null;
+    if (!selectedFile) {
+      fileNameEl.textContent = "No image selected";
+      preview.style.display = "none";
+      previewImage.src = "";
+      classifyBtn.disabled = true;
+      return;
+    }
+    fileNameEl.textContent = selectedFile.name;
+    classifyBtn.disabled = false;
+    localStorage.removeItem(STORAGE_KEY);
+    clearResult();
+    const reader = new FileReader();
+    reader.onload = (e) => { previewImage.src = e.target.result; preview.style.display = "block"; };
+    reader.readAsDataURL(selectedFile);
+  });
+
+  classifyBtn.addEventListener("click", async () => {
+    if (isClassifying || !selectedFile) return;
+    isClassifying = true;
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    loading.style.display = "block";
+    errorBox.style.display = "none";
+    classifyBtn.disabled = true;
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/aircraft/type`, { method: "POST", body: formData });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.error || "Aircraft classification failed.");
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showResult(data);
+    } catch (error) {
+      showError(error.message);
+    } finally {
+      loading.style.display = "none";
+      classifyBtn.disabled = false;
+      isClassifying = false;
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    selectedFile = null;
+    fileInput.value = "";
+    fileNameEl.textContent = "No image selected";
+    preview.style.display = "none";
+    previewImage.src = "";
+    classifyBtn.disabled = true;
+    localStorage.removeItem(STORAGE_KEY);
+    clearResult();
+  });
+
+  document.getElementById("proceedBtn").addEventListener("click", () => {
+    window.location.href = "upload.html";
+  });
+
+  function showResult(data) {
+    aircraftType.textContent = data.aircraft_type || "---";
+    const pct = Number(data.confidence_percent || 0);
+    confidence.textContent = `Confidence: ${pct.toFixed(2)}%`;
+    topPredictions.innerHTML = "";
+    if (Array.isArray(data.top_predictions)) {
+      data.top_predictions.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "ac-top-item";
+        const name = document.createElement("span");
+        name.textContent = item.class_name || "Unknown";
+        const conf = document.createElement("span");
+        conf.textContent = typeof item.confidence_percent === "number"
+          ? `${item.confidence_percent.toFixed(2)}%`
+          : typeof item.confidence === "number"
+          ? `${(item.confidence * 100).toFixed(2)}%`
+          : "--%";
+        row.appendChild(name);
+        row.appendChild(conf);
+        topPredictions.appendChild(row);
+      });
+    }
+    resultBox.style.display = "block";
+    emptyResult.style.display = "none";
+    errorBox.style.display = "none";
+    loading.style.display = "none";
+  }
+
+  function restoreLastResult() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    try { showResult(JSON.parse(saved)); } catch { localStorage.removeItem(STORAGE_KEY); }
+  }
+
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.style.display = "block";
+  }
+
+  function clearResult() {
+    errorBox.style.display = "none";
+    resultBox.style.display = "none";
+    emptyResult.style.display = "flex";
+    loading.style.display = "none";
+    aircraftType.textContent = "---";
+    confidence.textContent = "Confidence: --%";
+    topPredictions.innerHTML = "";
+  }
+  </script>
+</body>
+</html>

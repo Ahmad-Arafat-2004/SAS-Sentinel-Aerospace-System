@@ -1,0 +1,37 @@
+{
+  "model": "D:\\aircraft_damage_detection_3d\\backend\\model\\best.pt",
+  "data": "D:\\aircraft_damage_detection_3d\\data\\unified_aircraft_damage_yolov8\\data.yaml",
+  "conf": 0.4,
+  "iou": 0.5,
+  "precision": 0.6723056823322386,
+  "recall": 0.5754716475732756,
+  "mAP50": 0.6697304700047303,
+  "mAP50_95": 0.45689857667821054,
+  "class_results": {
+    "crack": {
+      "precision": 0.8603268945022289,
+      "recall": 0.7432605905006419,
+      "mAP50": 0.8251005730187818
+    },
+    "dent": {
+      "precision": 0.8752136752136752,
+      "recall": 0.5967365967365967,
+      "mAP50": 0.7578366228091071
+    },
+    "scratch": {
+      "precision": 0.75,
+      "recall": 0.8571428571428571,
+      "mAP50": 0.9101250000000002
+    },
+    "paint_damage": {
+      "precision": 0.7142857142857143,
+      "recall": 0.6521739130434783,
+      "mAP50": 0.7593303571428571
+    },
+    "other_damage": {
+      "precision": 0.16170212765957448,
+      "recall": 0.028044280442804426,
+      "mAP50": 0.09625979705290522
+    }
+  }
+}

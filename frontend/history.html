@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detection History | SAS — Sentinel Aerospace System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/upload.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-bg"></div>
+  <div class="app">
+
+    <header class="topbar" id="site-topbar"></header>
+
+    <main class="with-sidebar" style="overflow:hidden">
+      <aside class="sidebar" id="site-sidebar"></aside>
+      <script src="assets/js/shell.js"></script>
+
+      <div style="overflow-y:auto;height:100%">
+        <div class="upload-page">
+
+          <section class="upload-hero">
+            <div class="hero-text">
+              <span class="section-badge">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Detection History
+              </span>
+              <h2>Previous Aircraft Inspections</h2>
+              <p>
+                View previous image detection results saved by the backend. Each result
+                can be opened again in the result page or loaded into the 3D localization viewer.
+              </p>
+              <div class="backend-pill">
+                <span class="status-dot"></span>
+                <span id="historyStatus">Loading history...</span>
+              </div>
+            </div>
+            <div class="hero-card">
+              <div class="hero-card-icon">
+                <i class="fa-solid fa-database"></i>
+              </div>
+              <h3>History Summary</h3>
+              <ul>
+                <li id="historyCountText">Total Results: Loading...</li>
+                <li id="damageCountText">Damage Results: Loading...</li>
+                <li id="cleanCountText">Clean Results: Loading...</li>
+                <li id="latestResultText">Latest: Loading...</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="info-section">
+            <div class="info-card full-width">
+              <i class="fa-solid fa-filter"></i>
+              <div style="width:100%">
+                <h4>Search & Filter</h4>
+                <div class="history-toolbar">
+                  <input id="historySearchInput" type="text" placeholder="Search by file name, damage type, zone, or severity..." />
+                  <select id="historyFilterSelect">
+                    <option value="all">All Results</option>
+                    <option value="damage">Damage Detected</option>
+                    <option value="clean">No Damage</option>
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                  <button id="refreshHistoryBtn" class="secondary-btn" type="button">
+                    <i class="fa-solid fa-rotate"></i> Refresh
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="history-section">
+            <div id="historyGrid" class="history-grid">
+              <div class="history-empty">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Loading detection history...</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="statusbar" id="site-statusbar"></footer>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/history.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detection Result | SAS — Sentinel Aerospace System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/upload.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-bg"></div>
+  <div class="app">
+
+    <header class="topbar" id="site-topbar"></header>
+
+    <main class="with-sidebar" style="overflow:hidden">
+      <aside class="sidebar" id="site-sidebar"></aside>
+      <script src="assets/js/shell.js"></script>
+
+      <div style="overflow-y:auto;height:100%">
+        <div class="upload-page result-page">
+
+          <section class="result-header">
+            <div>
+              <span class="section-badge"><i class="fa-solid fa-chart-simple"></i> Detection Result</span>
+              <h2>Aircraft Surface Inspection Report</h2>
+              <p>Saved inspection output with aircraft classification, damage status, localization, and maintenance guidance.</p>
+            </div>
+            <div class="backend-pill">
+              <span class="status-dot"></span>
+              <span id="resultStatus">Loading result...</span>
+            </div>
+          </section>
+
+          <section class="result-dashboard">
+            <div class="result-media-column">
+              <article class="result-card">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-regular fa-image"></i> Original Image</h3>
+                  <p>Uploaded inspection image.</p>
+                </div>
+                <div class="result-image-frame" id="originalImageBox" style="display: none;">
+                  <img id="originalImage" src="" alt="Original uploaded aircraft image" />
+                </div>
+                <div class="empty-preview result-empty-small" id="originalEmptyState">
+                  <i class="fa-regular fa-image"></i>
+                  <p>Original image unavailable</p>
+                </div>
+              </article>
+
+              <article class="result-card">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-solid fa-object-group"></i> Processed Image</h3>
+                  <p>Detection or no-damage annotation.</p>
+                </div>
+                <div class="result-image-frame" id="resultImageBox" style="display: none;">
+                  <img id="resultImage" src="" alt="Aircraft damage detection result" />
+                </div>
+                <div class="empty-preview result-empty-small" id="resultEmptyState">
+                  <i class="fa-regular fa-image"></i>
+                  <p>Processed image unavailable</p>
+                </div>
+              </article>
+            </div>
+
+            <div class="result-info-column">
+              <article class="result-card summary-card" id="statusCard">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-solid fa-clipboard-check"></i> Inspection Summary</h3>
+                </div>
+                <div class="result-details">
+                  <div class="detail-row"><span>Result ID</span><strong id="resultIdText">---</strong></div>
+                  <div class="detail-row"><span>Created At</span><strong id="createdAtText">---</strong></div>
+                  <div class="detail-row"><span>Damage Status</span><strong id="damageStatusText">---</strong></div>
+                  <div class="detail-row"><span>Damage Status Confidence</span><strong id="damageStatusConfidenceText">---</strong></div>
+                </div>
+              </article>
+
+              <article class="result-card">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-solid fa-plane"></i> Aircraft Information</h3>
+                </div>
+                <div class="result-details">
+                  <div class="detail-row"><span>Aircraft Type</span><strong id="aircraftTypeText">---</strong></div>
+                  <div class="detail-row"><span>Aircraft Type Confidence</span><strong id="aircraftConfidenceText">---</strong></div>
+                  <div class="detail-row"><span>Model File</span><strong id="modelFileText">---</strong></div>
+                  <div class="detail-row"><span>Model Mode</span><strong id="modelModeText">---</strong></div>
+                  <div class="detail-row"><span>Dataset Source</span><strong id="datasetSourceText">---</strong></div>
+                  <div class="detail-row"><span>Original File</span><strong id="originalFileText">---</strong></div>
+                </div>
+              </article>
+
+              <article class="result-card" id="mainDetectionCard">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-solid fa-triangle-exclamation"></i> Damage Analysis</h3>
+                </div>
+                <div id="noDetectionBox" class="status-box info" style="display: none;">No visible aircraft surface damage was detected.</div>
+                <div class="result-details">
+                  <div class="detail-row"><span>Damage Type</span><strong id="damageTypeText">---</strong></div>
+                  <div class="detail-row"><span>Detection Confidence</span><strong id="confidenceText">---</strong></div>
+                  <div class="detail-row"><span>Severity</span><strong id="severityText" class="severity-pill">---</strong></div>
+                  <div class="detail-row"><span>Total Detections</span><strong id="totalDetectionsText">---</strong></div>
+                  <div class="detail-row"><span>Area Ratio</span><strong id="areaRatioText">---</strong></div>
+                </div>
+              </article>
+
+              <article class="result-card">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-solid fa-location-crosshairs"></i> 3D Localization</h3>
+                </div>
+                <div class="result-details">
+                  <div class="detail-row"><span>Affected Zone</span><strong id="zoneText">---</strong></div>
+                  <div class="detail-row"><span>3D Position</span><strong id="position3dText">---</strong></div>
+                  <div class="detail-row"><span>Image View</span><strong id="viewText">---</strong></div>
+                </div>
+              </article>
+
+              <article class="result-card">
+                <div class="card-header compact-header">
+                  <h3><i class="fa-solid fa-screwdriver-wrench"></i> Recommendations</h3>
+                </div>
+                <div class="recommendation-box result-recommendation">
+                  <p id="recommendationText">---</p>
+                </div>
+              </article>
+
+              <div class="result-actions">
+                <a href="upload.html" class="primary-btn link-btn"><i class="fa-solid fa-upload"></i> Analyze Another Image</a>
+                <button id="open3dButton" class="secondary-btn" type="button"><i class="fa-solid fa-cube"></i> Open 3D Localization</button>
+                <a href="history.html" class="secondary-btn link-btn"><i class="fa-solid fa-clock-rotate-left"></i> View History</a>
+                <a id="jsonLink" href="#" target="_blank" class="text-link"><i class="fa-solid fa-code"></i> Open Result JSON</a>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="statusbar" id="site-statusbar"></footer>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/result.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "coordinate_system": {
+    "x": "aircraft length axis; positive points toward nose",
+    "y": "vertical axis; positive points upward",
+    "z": "wing span axis; positive points toward left wing"
+  },
+  "zones": {
+    "Nose": { "x": 2.7, "y": 0.05, "z": 0.0 },
+    "Forward Fuselage Zone": { "x": 1.7, "y": 0.05, "z": 0.0 },
+    "Mid Fuselage Zone": { "x": 0.2, "y": 0.05, "z": 0.0 },
+    "Rear Fuselage Zone": { "x": -1.4, "y": 0.05, "z": 0.0 },
+    "Left Wing": { "x": 0.0, "y": 0.05, "z": 1.7 },
+    "Right Wing": { "x": 0.0, "y": 0.05, "z": -1.7 },
+    "Tail": { "x": -2.3, "y": 0.25, "z": 0.0 },
+    "Engine": { "x": 0.1, "y": -0.25, "z": 1.1 }
+  }
+}

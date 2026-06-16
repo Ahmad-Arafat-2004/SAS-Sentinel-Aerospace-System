@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Aircraft Image | SAS — Sentinel Aerospace System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/upload.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-bg"></div>
+  <div class="app">
+
+    <header class="topbar" id="site-topbar"></header>
+
+    <main class="with-sidebar" style="overflow:hidden">
+      <aside class="sidebar" id="site-sidebar"></aside>
+      <script src="assets/js/shell.js"></script>
+
+      <div style="overflow-y:auto;height:100%">
+        <div class="upload-page">
+
+          <section class="upload-hero">
+            <div class="hero-text">
+              <span class="section-badge">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                AI Damage Inspection
+              </span>
+              <h2>Upload Aircraft Surface Image</h2>
+              <p>
+                Upload an aircraft image, select the camera/view direction, and the system
+                will detect visible surface damage, estimate severity, and map the damage
+                to an approximate 3D aircraft zone.
+              </p>
+              <div class="backend-pill">
+                <span class="status-dot"></span>
+                <span id="backendStatus">Checking backend...</span>
+              </div>
+            </div>
+            <div class="hero-card">
+              <div class="hero-card-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3>Inspection Workflow</h3>
+              <ul>
+                <li>Image upload</li>
+                <li>AI detection</li>
+                <li>Severity calculation</li>
+                <li>Aircraft zone mapping</li>
+                <li>3D visualization</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="upload-layout">
+            <div class="upload-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Detection Input</h3>
+                <p>Select an aircraft image and choose the viewing angle.</p>
+              </div>
+              <form id="uploadForm" class="upload-form">
+                <div class="form-group">
+                  <label for="imageInput">Aircraft Image</label>
+                  <label class="file-drop-area" for="imageInput">
+                    <input id="imageInput" type="file" name="image" accept="image/png, image/jpg, image/jpeg, image/webp" />
+                    <div class="file-drop-content">
+                      <i class="fa-solid fa-image"></i>
+                      <strong>Choose aircraft image</strong>
+                      <span>Supported: JPG, JPEG, PNG, WEBP</span>
+                      <small id="selectedFileName">No file selected</small>
+                    </div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label for="viewSelect">Aircraft View / Camera Angle</label>
+                  <select id="viewSelect" name="view">
+                    <option value="right" selected>Right View</option>
+                    <option value="left">Left View</option>
+                    <option value="front">Front View</option>
+                    <option value="back">Back View</option>
+                    <option value="top">Top View</option>
+                    <option value="bottom">Bottom View</option>
+                    <option value="unknown">Unknown View</option>
+                  </select>
+                  <small class="hint">
+                    Choose the closest view. This helps the system map the detected damage
+                    to the correct 3D aircraft zone.
+                  </small>
+                </div>
+                <button id="uploadButton" type="submit" class="primary-btn">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  Start Detection
+                </button>
+                <div id="statusBox" class="status-box" style="display: none;"></div>
+              </form>
+            </div>
+
+            <div class="preview-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-eye"></i> Image Preview</h3>
+                <p>Preview the selected image before running detection.</p>
+              </div>
+              <div id="previewBox" class="preview-box" style="display: none;">
+                <img id="previewImage" src="" alt="Selected aircraft preview" />
+              </div>
+              <div class="empty-preview" id="emptyPreview">
+                <i class="fa-regular fa-image"></i>
+                <p>No image selected yet</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="info-section">
+            <div class="info-card">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <div>
+                <h4>Important Note</h4>
+                <p>
+                  The current version can run in demo mode before the final YOLO model is added.
+                  When <code>backend/model/best.pt</code> is available, the system will automatically
+                  use the real trained model.
+                </p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-cube"></i>
+              <div>
+                <h4>3D Localization</h4>
+                <p>
+                  The detected bounding box center is mapped to an approximate aircraft zone
+                  such as nose, fuselage, wing, belly, or tail.
+                </p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-video"></i>
+              <div>
+                <h4>Video Analysis</h4>
+                <p>
+                  Video folders are reserved for future work. The final demo uses the
+                  stable image upload pipeline.
+                </p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="statusbar" id="site-statusbar"></footer>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/upload.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const imageInput = document.getElementById("imageInput");
+      const previewBox = document.getElementById("previewBox");
+      const emptyPreview = document.getElementById("emptyPreview");
+      if (imageInput && previewBox && emptyPreview) {
+        imageInput.addEventListener("change", () => {
+          emptyPreview.style.display = imageInput.files && imageInput.files.length > 0 ? "none" : "flex";
+        });
+      }
+    });
+  </script>
+</body>
+</html>
